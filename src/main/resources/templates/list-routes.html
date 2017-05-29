@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>List Trade Opportunities</title>
+	<link type="text/css"
+		rel="stylesheet"
+		th:href="@{/css/style.css}" />
+	<link type="text/css"
+		rel="stylesheet"
+		th:href="@{/css/add-planet-style.css}" />
+		
+</head>
+<body>
+
+	<div id="wrapper">
+		<div id="header">
+			<h2>Trade Route Manager</h2>
+		</div>
+	</div>
+	<div id="container">
+		<div id="content">
+		
+		<input type="button" value="Back to Planets"
+			onclick="window.location.href='../planets/list-planets'; return false;"
+			class="add-button" />
+			
+		<input type="button" value="Calculate Routes"
+			onclick="window.location.href='compute-routes'; return false;"
+			class="add-button" />
+			
+		</div>
+		<div>
+		<form action="#" th:action="@{/routes/list-routes}" th:object="${filter}" method="get">
+			<div><label class="filterinput"><input type="number" th:field="*{num_motors}"/> Number of Motors</label></div>
+			<div><label class="filterinput"><input type="checkbox" th:field="*{motorFilter}"/> Activate distance Filter</label></div>	
+			
+			<div><label class="filterinput"><input type="number" th:field="*{absolute_value}"/> Minimum Value</label></div>
+			<div><label class="filterinput"><input type="checkbox" th:field="*{absoluteFilter}"/> Activate Absolute Value Filter</label></div>	
+			
+			<div><label class="filterinput"><input type="number" th:field="*{relative_value}"/> Minimum Winnings</label></div>
+			<div><label class="filterinput"><input type="checkbox" th:field="*{relativeFilter}"/> Activate Relative Value Filter</label></div>	
+			<input type="submit" value="Filter Anwenden"
+			onclick="window.location.href='list-routes'; return false;"
+			class="add-button" />
+		</form>
+		
+		</div>
+		<div>
+		
+		<table>
+		<tr>
+			<th>Route Start</th>
+			<th>Route Goal</th>
+			<th>Commodity</th>
+			<th>Price per Unit</th>
+			<th>Profit per Unit</th>
+			<th>Profit Percentage</th>
+			<th>Total Distance</th>
+			<th>Value per Turn</th>
+		</tr>
+			<th:url var="recalculate" value="/routes/list-routes">
+				<th:param name="routeID" value="${route?.uid}"></th:param>
+			</th:url>
+			
+			
+			<tr class="routelist" th:each="route : ${routes}">
+				<td><p th:text="${planets['__${route.exportPlanet}__']}?: Export-Planet"> Planet Name </p></td>
+				<td><p th:text="${planets['__${route.importPlanet}__']}?: Export-Ziel"> Planet Name </p></td>
+				<td><p th:text="${route?.commodity}?: 'Ware'"> Ware </p></td>
+				<td><p th:text="${route?.exportPrice}?: 'Export-Preis'"> Exportpreis </p></td>
+				<td><p th:text="${route?.absoluteWinningsPerUnit}?: 'Absolutgewinn'"> Absoluter Gewinn </p></td>
+				<td><p th:text="${route?.relativeWinningsPerUnit}?: 'Gewinnspanne'"> Gewinnspanne </p></td>
+				<td><p th:text="${route?.totalDistance}?: 'benötigte Motoren'"> Motorleistung </p></td>
+				<td><p th:text="${route?.absoluteWinningsPerUnit}?: 'Gewinn pro Runde'"> Gewinn pro Runde </p></td>
+			</tr>
+		
+		</table>
+		
+		</div>
+	</div>
+
+</body>
+</html>

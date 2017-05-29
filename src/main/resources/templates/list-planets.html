@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+	<title>List Planets</title>
+	<link type="text/css"
+		rel="stylesheet"
+		th:href="@{/css/style.css}" />
+	<link type="text/css"
+		rel="stylesheet"
+		th:href="@{/css/add-planet-style.css}" />
+</head>
+<body>
+
+	<div id="wrapper">
+		<div id="header">
+			<h2>Planet Data Manager</h2>
+		</div>
+	</div>
+	<div id="container">
+		<div id="content">
+		
+		<!-- Put button here: Add Customer -->
+		
+		<input type="button" value="Add Planet"
+			onclick="window.location.href='showFormImportPlanet'; return false;"
+			class="add-button" />
+		<input type="button" value="Show Routes"
+			onclick="window.location.href='../routes/list-routes'; return false;"
+			class="add-button" />
+		
+		<!-- add our html table here -->
+		
+		<div><p th:text="'There are ' + ${planets.size()} + ' planets in the database!'" /></div>
+		<table>
+		<tr>
+			<th>Planet Name</th>
+			<th>Type</th>
+			<th>Coordinates</th>
+			<th>Last Visit:</th>
+		</tr>
+			
+			<tr class="planetlist" th:each="planet : ${planets}">
+				<td><p th:text="${planet?.name}?: 'Planetenname'"> Planet Name </p></td>
+				<td><p th:text="${planet?.type}?: 'Planetentyp'" > Planet Type </p></td>
+				<td><p th:text="${planet?.coordinates}?: 'Planetenort'" > Planet Type </p></td>
+				<td><p th:text="${planet?.lastVisit}?: 'Letzter Scan'" > Planet Type </p></td>
+			</tr>
+		
+		</table>
+		
+		</div>
+	</div>
+
+</body>
+</html>

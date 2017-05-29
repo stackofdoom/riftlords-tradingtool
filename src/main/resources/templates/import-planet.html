@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Import Planet Data</title>
+
+	<link type="text/css"
+		rel="stylesheet"
+		th:href="@{/css/style.css}" />
+	<link type="text/css"
+		rel="stylesheet"
+		th:href="@{/css/add-planet-style.css}" />
+</head>
+<body>
+
+<div id="wrapper">
+	<div id="header">
+		<h2>Planet Data Manager</h2>
+	</div>
+</div>
+
+<div id="container">
+	<h3>Import Planet</h3>
+	
+	<form action="#" th:action="@{/planets/importPlanet}" th:object="${rawdata}" method="POST">
+		<table>
+			<tbody>
+				<tr>
+					<td><label>Planet Data:</label></td>
+				</tr>
+				<tr>
+					<td><textarea th:field="*{text}" path="text" rows="13" cols="73" class="planetimport"></textarea></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Save" class="save"/></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<p><input type="button" value="Back to Planets"
+			onclick="window.location.href='../planets/list-planets'; return false;"
+			class="add-button" /></p>
+	
+</div>
+<div><h3>ReadMe NAO</h3>
+<p>Zum Einfügen einer PlanetenInfo einfach den Planeten auf dem Rundenzettel markieren und in das Textfeld kopieren. Der Rand der Formatierung kann gerne so bleiben.</p>
+
+</div>
+
+</body>
+</html>
