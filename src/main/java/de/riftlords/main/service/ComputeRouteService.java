@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import de.riftlords.main.service.traderoute.strategy.SimpleRouteStrategy;
 
 @Service
 public class ComputeRouteService {
+	
+	private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 	private RouteStrategy strategy = new SimpleRouteStrategy();
 
@@ -32,19 +36,22 @@ public class ComputeRouteService {
 	public List<TradeRoute> computeRoutes(int maxdist, List<Planet> planets) {
 
 		List<TradeRoute> result;
-		System.out.println("Selecting Strategy for determining routes...." + strategy.getName());
+		LOGGER.debug("Selecting Strategy for determining routes...." + strategy.getName());
 		result = strategy.findPossibleRoute(maxdist, planets);
 
 		List<TradeRoute> previousRoutes = trRepository.findAll();
+		Long updateCounter = 0l;
 		for (TradeRoute tr : previousRoutes) {
 			for (TradeRoute str : result) {
-				System.out.println("comparing routes " + str.toString() + " and " + tr.toString());
+				LOGGER.debug("comparing routes " + str.toString() + " and " + tr.toString());
 				if (sameRoute(tr, str)) {
-					update(tr, str);
+					update(tr, str, updateCounter);
 				}
-				System.out.println("Identity is " + sameRoute(tr, str));
+				LOGGER.debug("Identity is " + sameRoute(tr, str));
 			}
 		}
+		
+		LOGGER.info("Updated {} routes", updateCounter);
 
 		return result;
 	}
@@ -65,19 +72,21 @@ public class ComputeRouteService {
 
 	private TradeRoute updateAll(TradeRoute origin, List<TradeRoute> traderoutes) {
 		TradeRoute result = origin;
+		Long updateCounter = 0l;
 		for (TradeRoute route : traderoutes) {
-			result = update(origin, route);
+			result = update(origin, route, updateCounter);
 		}
-
+		LOGGER.info("Updated {} of {} routes", updateCounter, traderoutes.size());
 		return result;
 	}
 
-	private TradeRoute update(final TradeRoute tr, final TradeRoute str) {
+	private TradeRoute update(final TradeRoute tr, final TradeRoute str, Long updateCounter) {
 		TradeRoute result = tr;
 		if (sameRoute(tr, str)) {
 			if (tr.getRelativeWinningsPerUnit() != str.getAbsoluteWinningsPerUnit()) {
 				result = str;
 				result.setUid(tr.getUid());
+				updateCounter++;
 			}
 		}
 		return result;
@@ -104,7 +113,7 @@ public class ComputeRouteService {
 	public Map<String, String> getPlanetMap(Set<String> planetCoords) {
 		Map<String, String> planetMap = new HashMap<>(planetCoords.size());
 
-		System.out.println("About to create planet map...");
+		LOGGER.info("About to create planet map...");
 		List<Planet> planets = planetViewService.getPlanets();
 
 		for (String coord : planetCoords) {
