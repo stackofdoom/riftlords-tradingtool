@@ -115,23 +115,6 @@ public class TradeRoute {
 	public void setTotalDistancE(int dist){
 		totaldistance = dist;
 	}
-	
-//	public double getWinningsPerTurn(int motors){
-//		if(motors >= totaldistance){
-//			return getAbsoluteWinningsPerUnit();
-//		}else{
-//			double dist = totaldistance;
-//			int turns = 0;
-//			while(dist > motors){
-//				dist = dist - motors;
-//				turns ++;
-//				
-//			}
-//			return getAbsoluteWinningsPerUnit() / turns;
-//		}
-//	}
-	
-	
 
 	@Override
 	public int hashCode() {

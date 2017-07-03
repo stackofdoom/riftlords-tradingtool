@@ -177,7 +177,6 @@ public class PlanetFactory{
 		
 		Pattern pattern = Pattern.compile(HEADER_GROUP_REGEX);
 		Matcher matcher = pattern.matcher(toParse);
-		int riftstar_index = 0;
 		if (matcher.matches()) {
 			System.out.println("match!!!");
 			System.out.println(matcher.group(1));

@@ -2,7 +2,6 @@ package de.riftlords.main.controller;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,11 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import de.riftlords.main.persistence.entity.Coordinate;
 import de.riftlords.main.persistence.entity.Planet;
 import de.riftlords.main.persistence.entity.TradeRoute;
 import de.riftlords.main.service.ComputeRouteService;
